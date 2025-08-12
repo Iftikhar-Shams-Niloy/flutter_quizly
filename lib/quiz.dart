@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+import 'package:quizly/questions_screen.dart';
+import 'package:quizly/start_screen.dart';
+
+class Quiz extends StatefulWidget {
+  const Quiz({super.key});
+
+  @override
+  State<Quiz> createState() {
+    return _QuizState();
+  }
+}
+
+class _QuizState extends State<Quiz> {
+  var activeScreen = 'start-screen';
+
+  @override
+  void initState() {
+    activeScreen = 'questions-screen';
+    super.initState();
+  }
+
+  void switchScreen() {
+    setState(() {
+      activeScreen = 'questions-screen';
+    });
+  }
+
+  @override
+  Widget build(context) {
+    var screenWidget = activeScreen == 'start-screen'
+              ? StartScreen(switchScreen)
+              : const QuestionsScreen();
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Quizly",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              letterSpacing: 1.5,
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.blueAccent,
+          elevation: 8,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.info_outline),
+              onPressed: () {},
+            ),
+          ],
+        ),
+
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 7, 77, 198),
+                Color.fromARGB(255, 61, 168, 255),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: screenWidget,
+        ),
+      ),
+    );
+  }
+}
