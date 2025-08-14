@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quizly/models/custom_answer_button.dart';
 import 'package:quizly/data/questions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({super.key, required this.onSelectAnswer});
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<QuestionsScreen> createState() {
@@ -12,9 +15,18 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
+  var questionIndex = 0;
+
+  void questionAnswered(String item) {
+    widget.onSelectAnswer(item);
+    setState(() {
+      questionIndex += 1;
+    });
+  }
+
   @override
   Widget build(context) {
-    final currentQuestion = allQuestions[0];
+    final currentQuestion = allQuestions[questionIndex];
 
     return SizedBox(
       width: double.infinity,
@@ -26,18 +38,20 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           children: [
             Text(
               currentQuestion.question,
-              style: TextStyle(
-                color: Colors.white,
+              style: GoogleFonts.lato(
+                color: Colors.blueAccent,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             ...currentQuestion.shuffleTheAnswers().map((item) {
               return CustomAnswerButton(
                 answerText: item,
-                ifPressed: () {},
+                ifPressed: () {
+                  questionAnswered(item);
+                },
               );
             }),
           ],

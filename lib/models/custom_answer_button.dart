@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-
 class CustomAnswerButton extends StatelessWidget {
-  CustomAnswerButton({
+  const CustomAnswerButton({
     super.key,
     required this.answerText,
     required this.ifPressed,
@@ -29,7 +28,10 @@ class CustomAnswerButton extends StatelessWidget {
           horizontal: 20,
         ),
       ),
-      child: Text(answerText),
+      child: Text(
+        answerText,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
