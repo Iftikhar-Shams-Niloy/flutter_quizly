@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizly/data/questions.dart';
+import 'package:quizly/models/custom_app_bar.dart';
 import 'package:quizly/models/questions_screen.dart';
 import 'package:quizly/models/start_screen.dart';
 import 'package:quizly/models/results_screen.dart';
@@ -15,7 +16,14 @@ class Quiz extends StatefulWidget {
 
 class _QuizState extends State<Quiz> {
   var activeScreen = 'start-screen';
-  List<String> _selectedAnswers = [];
+  final List<String> _selectedAnswers = [];
+
+  void restartQuiz() {
+    setState(() {
+      _selectedAnswers.clear();
+      activeScreen = 'start-screen';
+    });
+  }
 
   @override
   void initState() {
@@ -43,7 +51,10 @@ class _QuizState extends State<Quiz> {
     Widget screenWidget = StartScreen(switchScreen);
 
     if (activeScreen == 'results-screen') {
-      screenWidget = ResultsScreen(chosenAnswers: _selectedAnswers);
+      screenWidget = ResultsScreen(
+        chosenAnswers: _selectedAnswers,
+        onRestart: restartQuiz,
+      );
     }
 
     if (activeScreen == 'questions-screen') {
@@ -52,26 +63,7 @@ class _QuizState extends State<Quiz> {
 
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Quizly",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              letterSpacing: 1.5,
-              color: Colors.white,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.blueAccent,
-          elevation: 8,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.info_outline),
-              onPressed: () {},
-            ),
-          ],
-        ),
+        appBar: const CustomAppBar(),
 
         body: Container(
           decoration: const BoxDecoration(
