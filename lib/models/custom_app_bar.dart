@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key, this.title = 'QUIZLY'});
@@ -8,7 +7,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize {
-    const Size.fromHeight(kToolbarHeight);
+    return const Size.fromHeight(kToolbarHeight);
   }
 
   @override
